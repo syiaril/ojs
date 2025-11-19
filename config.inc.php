@@ -1,13 +1,11 @@
 <?php exit; // DO NOT DELETE
-// Config OJS membaca database dari .env
+// Config OJS membaca database dari environment variables
 
 function env($key, $default = null) {
     return getenv($key) ?: $default;
 }
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [general]
-
 app_key =
 installed = On
 base_url = "<?php echo env('BASE_URL', 'https://ojs.ubig.web.id'); ?>"
@@ -21,19 +19,8 @@ date_format_long = "F j, Y"
 datetime_format_short = "Y-m-d h:i A"
 datetime_format_long = "F j, Y - h:i A"
 time_format = "h:i A"
-allow_url_fopen = Off
-restful_urls = Off
-allowed_hosts = ''
-trust_x_forwarded_for = Off
-show_upgrade_warning = On
-enable_minified = Off
-enable_beacon = On
-sitewide_privacy_statement = Off
-user_validation_period = 28
-sandbox = Off
 
 [database]
-
 driver = "<?php echo env('DB_DRIVER', 'mysqli'); ?>"
 host = "<?php echo env('DB_HOST', 'localhost'); ?>"
 username = "<?php echo env('DB_USERNAME', 'ojs_user'); ?>"
