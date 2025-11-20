@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /var/www/html
 
 # Copy OJS source code
-COPY ojs/ /var/www/html/
+COPY . /var/www/html/
 
 # Create required directories and set permissions
 RUN mkdir -p files cache public && \
