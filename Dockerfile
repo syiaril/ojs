@@ -1,21 +1,30 @@
+@@ -1,25 +1,15 @@
+# Gunakan image PHP-FPM resmi
 FROM php:8.1-fpm
 
+# Install dependencies
 RUN apt-get update && apt-get install -y \
-    nginx unzip git libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev \
-    && docker-php-ext-install mysqli pdo pdo_mysql zip gd
+    nginx unzip git libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev procps \
+    && docker-php-ext-install mysqli pdo pdo_mysql zip gd \
+    && apt-get clean
+    nginx unzip git libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libicu-dev \
+    && docker-php-ext-install mysqli pdo pdo_mysql zip gd intl
 
 WORKDIR /var/www/html
 
-# Copy semua file OJS (karena ada di root repo)
-COPY . /var/www/html/
+# Copy OJS
+COPY . /var/www/html
 
-RUN mkdir -p files cache public && \
-    chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html
+# Set permission folder yang dibutuhkan OJS
+RUN mkdir -p files cache public && chmod -R 777 files cache public
 
+# Copy konfigurasi Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY php.ini /usr/local/etc/php/conf.d/php.ini
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Expose port 80
 EXPOSE 80
 
-CMD service nginx start && php-fpm
+# Jalankan PHP-FPM dan Nginx bersamaan
+CMD ["sh", "-c", "php-fpm -F & nginx -g 'daemon off;'"]
+CMD ["bash", "-c", "php-fpm & nginx -g 'daemon off;'"]
