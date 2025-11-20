@@ -1,0 +1,10 @@
+.git
+.gitignore
+README.md
+Dockerfile
+nginx.conf
+php.ini
+*.zip
+*.tar
+*.tar.gz
+*.md
