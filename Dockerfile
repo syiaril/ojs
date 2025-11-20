@@ -1,15 +1,19 @@
 FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y \
-    nginx unzip git libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libicu-dev \
-    && docker-php-ext-install mysqli pdo pdo_mysql zip gd intl
+    nginx unzip git libzip-dev libpng-dev \
+    libfreetype6-dev libjpeg62-turbo-dev \
+    && docker-php-ext-install mysqli pdo pdo_mysql zip gd
 
+# Copy OJS
 WORKDIR /var/www/html
-
 COPY . /var/www/html
 
-RUN mkdir -p files cache public && chmod -R 777 files cache public
+# Permissions
+RUN mkdir -p files cache public && \
+    chown -R www-data:www-data /var/www/html
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-CMD ["bash", "-c", "php-fpm & nginx -g 'daemon off;'"]
+CMD service nginx start && php-fpm
