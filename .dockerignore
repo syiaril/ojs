@@ -2,7 +2,7 @@
 .gitignore
 README.md
 Dockerfile
-nginx.conf
+- nginx.conf
 php.ini
 *.zip
 *.tar
